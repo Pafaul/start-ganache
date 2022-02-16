@@ -1,0 +1,29 @@
+{
+  "name": "token-holders-generator",
+  "version": "0.1.0",
+  "description": "Modules to find holders and start ganache",
+  "main": "index.js",
+  "scripts": {
+    "test:requests": "node requests.js ./test/tokens.json ./output.json",
+    "test:start-ganche": "node start-ganache.js ./test/ganache-config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barrigaz/token-holders-generator.git"
+  },
+  "keywords": [
+    "ganache",
+    "ethereum"
+  ],
+  "author": "pafaul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barrigaz/token-holders-generator/issues"
+  },
+  "homepage": "https://github.com/barrigaz/token-holders-generator#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "fs": "^0.0.1-security",
+    "request": "^2.88.2"
+  }
+}
