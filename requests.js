@@ -158,6 +158,8 @@ function constructTokenInfo({
  * @property {Boolean} byAddress
  * @property {Boolean} cached
  * @property {Boolean} verbose
+ * @property {Boolean} debug
+ * @property {Number} retries
  * @property {String} writeToFile
  */
 
@@ -171,7 +173,9 @@ function constructTokenInfo({
 async function getTokenInfo({
     tokens,
     apiKey,
-    options = {}
+    options = {
+        retries: 1
+    }
 }) {
     console.log(`Gathering tokens info...`);
     const holdersInfo = [];
@@ -185,26 +189,62 @@ async function getTokenInfo({
     }
 
     for (let token of tokens) {
-        try {
-            if (options.verbose) {
-                console.log(`Gathering info for token ${token}`);
-            }
-            const holderInfo = await requestHolderInfo({
-                tokenAddress: token,
-                apiKey
-            });
-            const topHolder = findTopWallet(holderInfo);
-            holdersInfo.push(topHolder);
-
-            const tokenInfo = await requestTokenInfo({
-                tokenAddress: token,
-                apiKey
-            });
-            tokensInfo.push(tokenInfo);
-            await sleep(1);
-        } catch (err) {
-            throw new Error(`Error occured for token: ${token}.\nError: ${err}`);
+        if (options.verbose) {
+            console.log(`Gathering info for token ${token}`);
         }
+        let holderInfo;
+        let topHolder;
+        let success = false;
+        for (let tryId = 0; tryId < options.retries; tryId++) {
+            try {
+                if (options.debug) {
+                    console.log(`Trying to fetch holder info for ${token}`);
+                }
+                holderInfo = await requestHolderInfo({
+                    tokenAddress: token,
+                    apiKey
+                });
+                topHolder = findTopWallet(holderInfo);
+                success = true;
+                break;
+            } catch(err) {
+                if (options.debug) {
+                    console.log(`Fetching holder info try ${tryId} failed`);
+                }
+                await sleep(1);
+            }
+        }
+        if (!success) {
+            throw new Error(`Cannot fetch holders for token ${token}`);
+        }
+
+        success = false;
+        let tokenInfo;
+        for (let tryId = 0; tryId < options.retries; tryId++) {
+            try {
+                if (options.debug) {
+                    console.log(`Trying to fetch token info for ${token}`);
+                }
+                tokenInfo = await requestTokenInfo({
+                    tokenAddress: token,
+                    apiKey
+                });
+                success = true;
+                break;
+            } catch(err) {
+                if (options.debug) {
+                    console.log(`Fetching token info try ${tryId}} failed`);
+                }
+                await sleep(1);
+            }
+        }
+
+        if (!success) {
+            throw new Error(`Cannot fetch token info for token ${token}`);
+        }
+        holdersInfo.push(topHolder);
+        tokensInfo.push(tokenInfo);
+        await sleep(1);
     }
 
     const obj = constructTokenInfo({
@@ -231,8 +271,7 @@ async function main({
         tokens,
         apiKey,
         options: {
-            byAddress: true,
-            verbose: true
+            byAddress: true
         }
     });
 

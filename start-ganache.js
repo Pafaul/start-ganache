@@ -1,7 +1,5 @@
 const { getTokenInfo, apiKey } = require("./requests");
 
-const fs = require('fs');
-
 const child_process = require('child_process');
 
 require('dotenv').config();
@@ -87,12 +85,25 @@ async function createGanacheCliString(launchParams) {
 }
 
 /**
+ * @typedef {Object} GanacheSpawnOptions
+ * @property {Boolean} stdout
+ * @property {Boolean} stderr
+ */
+
+/**
  * @param {String} ganacheString 
+ * @param {GanacheSpawnOptions} ganacheStartOptions
  * @returns {child_process.ChildProcess}
  */
-function startGanache(ganacheString) {
-    let ganacheProcess = child_process.exec(ganacheString);
-    ganacheProcess.stdout.on('data', (data) => console.log(data));
+function startGanache(ganacheString, ganacheStartOptions) {
+    let ganacheProcess = child_process.exec(ganacheString, {killSignal: 'SIGINT', detached: true});
+    if (ganacheStartOptions.stdout) {
+        ganacheProcess.stdout.on('data', (data) => console.log(data));
+    }
+    if (ganacheStartOptions.stderr) {
+        ganacheProcess.stderr.on('data', (data) => console.log(data));
+    }
+
     return ganacheProcess;
 }
 
@@ -101,12 +112,12 @@ async function runGanache() {
     const launchParams = require(configFile);
     console.log(`Starting ganache...`)
     let string = await createGanacheCliString(launchParams);
-    startGanache(string);
+    startGanache(string, {stdout: true, stderr: true});
 }
 
 if (require.main === module) {
     runGanache().then(
-        () => console.log(`Ganache started`)
+        () => console.log(`Ganache finished`)
     ).catch(
         (err) => { 
             console.log(err)

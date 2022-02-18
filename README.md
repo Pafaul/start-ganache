@@ -16,6 +16,10 @@ Currently best example how to use these modules in a bundle is presented here:
 
 [Example file with gathered token info for balancer](https://github.com/barrigaz/arbitrager-contracts/blob/gas-execution-cost/test/misc-tests/gas-calculation/tmp/tokensBalancer.json)
 
+Also you can check examples in this repository by:
+- ```yarn test:requests```
+- ```yarn test:start-ganache```
+
 Options for creating ganache string:
 
 ```GanacheConfig``` structure:
