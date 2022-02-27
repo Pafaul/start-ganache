@@ -15,8 +15,8 @@
     "ganache",
     "ethereum"
   ],
-  "author": "pafaul",
-  "license": "ISC",
+  "author": "Pafaul <paulmihailov2013@gmail.com> (https://github.com/Pafaul)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Pafaul/start-ganache/issues"
   },
