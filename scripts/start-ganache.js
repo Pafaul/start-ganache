@@ -1,4 +1,4 @@
-const { getTokenInfo, apiKey } = require("./requests");
+const { getTokenInfo, bloxyApiKey } = require("./requests");
 
 const child_process = require('child_process');
 
@@ -69,7 +69,7 @@ async function createGanacheCliString(launchParams) {
     if (launchParams.tokens.length > 0) {
         obj = await getTokenInfo({
             tokens: launchParams.tokens,
-            apiKey,
+            apiKey: bloxyApiKey,
             options: launchParams.tokenSearchOptions
         });
     }

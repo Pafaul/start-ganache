@@ -1,10 +1,17 @@
 const { 
     createGanacheCliString,
     startGanache
-} = require("./start-ganache");
+} = require("./scripts/start-ganache");
+
+const {
+    getTokenInfo,
+    bloxyApiKey
+} = require('./scripts/requests');
 
 module.exports = {
     createGanacheCliString,
-    startGanache
+    startGanache,
+    getTokenInfo,
+    bloxyApiKey
 }
 

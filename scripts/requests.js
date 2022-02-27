@@ -2,7 +2,7 @@ const request = require('request');
 
 const fs = require('fs');
 
-const apiKey = 'ACCEd0efRboLa';
+const bloxyApiKey = 'ACCEd0efRboLa';
 
 function sleep(s) {
     return new Promise((resolve) => {
@@ -314,6 +314,6 @@ if (require.main === module) {
 } else {
     module.exports = {
         getTokenInfo,
-        apiKey
+        bloxyApiKey
     }
 }
