@@ -97,11 +97,13 @@ async function createGanacheCliString(launchParams) {
  */
 function startGanache(ganacheString, ganacheStartOptions) {
     let ganacheProcess = child_process.exec(ganacheString, {killSignal: 'SIGINT', detached: true});
-    if (ganacheStartOptions.stdout) {
-        ganacheProcess.stdout.on('data', (data) => console.log(data));
-    }
-    if (ganacheStartOptions.stderr) {
-        ganacheProcess.stderr.on('data', (data) => console.log(data));
+    if (ganacheStartOptions) {
+        if (ganacheStartOptions.stdout) {
+            ganacheProcess.stdout.on('data', (data) => console.log(data));
+        }
+        if (ganacheStartOptions.stderr) {
+            ganacheProcess.stderr.on('data', (data) => console.log(data));
+        }
     }
 
     return ganacheProcess;
@@ -112,12 +114,16 @@ async function runGanache() {
     const launchParams = require(configFile);
     console.log(`Starting ganache...`)
     let string = await createGanacheCliString(launchParams);
-    startGanache(string, {stdout: true, stderr: true});
+    console.log(string);
+    startGanache(string, {
+        stderr: true,
+        stdout: true
+    });
 }
 
 if (require.main === module) {
     runGanache().then(
-        () => console.log(`Ganache finished`)
+        () => console.log(`Ganache started`)
     ).catch(
         (err) => { 
             console.log(err)

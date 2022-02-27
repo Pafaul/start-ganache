@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:requests": "node requests.js ./test/tokens.json ./output.json",
-    "test:start-ganche": "node start-ganache.js ./test/ganache-config.js"
+    "test:start-ganache": "node start-ganache.js ./test/ganache-config.js"
   },
   "repository": {
     "type": "git",

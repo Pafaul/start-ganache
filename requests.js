@@ -33,7 +33,7 @@ function performRequest(_url) {
             if (!error && response.statusCode == 200) {
                 resolve(body);
             } else {
-                reject(response.statusCode);
+                reject(false);
             }
         });
     })
@@ -161,6 +161,7 @@ function constructTokenInfo({
  * @property {Boolean} debug
  * @property {Number} retries
  * @property {String} writeToFile
+ * @property {Record<String, Token>} knownTokens
  */
 
 /**
@@ -174,8 +175,9 @@ async function getTokenInfo({
     tokens,
     apiKey,
     options = {
-        retries: 1
-    }
+        retries: 1,
+        knownTokens: {}
+    },
 }) {
     console.log(`Gathering tokens info...`);
     const holdersInfo = [];
@@ -188,7 +190,15 @@ async function getTokenInfo({
         return JSON.parse(fs.readFileSync(options.writeToFile));
     }
 
+    let obj;
+
+    if (!options.knownTokens) options.knownTokens = {};
+
     for (let token of tokens) {
+        if (token.toLowerCase() in options.knownTokens) {
+            continue;
+        }
+
         if (options.verbose) {
             console.log(`Gathering info for token ${token}`);
         }
@@ -247,11 +257,14 @@ async function getTokenInfo({
         await sleep(1);
     }
 
-    const obj = constructTokenInfo({
-        holderInfo: holdersInfo,
-        tokenInfo: tokensInfo,
-        byAddress: options.byAddress
-    });
+    obj = {
+        ...constructTokenInfo({
+            holderInfo: holdersInfo,
+            tokenInfo: tokensInfo,
+            byAddress: options.byAddress
+        }),
+        ...options.knownTokens
+    }
 
     if (Boolean(options.writeToFile)) {
         fs.writeFileSync(options.writeToFile, JSON.stringify(obj, null, '\t'));
@@ -271,7 +284,10 @@ async function main({
         tokens,
         apiKey,
         options: {
-            byAddress: true
+            byAddress: true,
+            retries: 3,
+            debug: true,
+            verbose: true
         }
     });
 
