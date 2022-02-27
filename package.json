@@ -1,11 +1,11 @@
 {
   "name": "evm-fork-launch",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Modules to find holders and start ganache",
   "main": "index.js",
   "scripts": {
-    "test:requests": "node ./scripts/requests.js ./test/tokens.json ./output.json",
-    "test:start-ganache": "node ./scripts/start-ganache.js ./test/ganache-config.js"
+    "test:requests": "node ./scripts/requests.js ../test/tokens.json ./output.json",
+    "test:start-ganache": "node ./scripts/start-ganache.js ../test/ganache-config.js"
   },
   "repository": {
     "type": "git",
