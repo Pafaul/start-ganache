@@ -4,6 +4,16 @@ const fs = require('fs');
 
 const bloxyApiKey = 'ACCEd0efRboLa';
 
+const {
+    NETWORK = 'ETH'
+} = process.env;
+
+const networksWithHolderSearch = {
+    'ETH': true,
+    'POLYGON': false,
+    'ARBITRUM': false
+}
+
 function sleep(s) {
     return new Promise((resolve) => {
       setTimeout(resolve, s*1e3);
@@ -183,9 +193,12 @@ async function getTokenInfo({
     const holdersInfo = [];
     const tokensInfo = [];
     if (
-        options.cached &&
-        Boolean(options.writeToFile) &&
-        fs.existsSync(options.writeToFile)
+        ! networksWithHolderSearch[NETWORK] ||
+        (
+            options.cached &&
+            Boolean(options.writeToFile) &&
+            fs.existsSync(options.writeToFile)
+        )
     ) {
         return JSON.parse(fs.readFileSync(options.writeToFile));
     }

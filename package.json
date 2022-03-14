@@ -1,6 +1,6 @@
 {
   "name": "evm-fork-launch",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Modules to find holders and start ganache",
   "main": "index.js",
   "scripts": {

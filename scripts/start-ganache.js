@@ -11,7 +11,8 @@ const {
 
 const networksToEndpoints = {
     'ETH': 'https://mainnet.infura.io/v3/',
-    'POLYGON': 'https://polygon-rpc.com/'
+    'POLYGON': 'https://polygon-rpc.com/',
+    'ARBITRUM': 'https://arbitrum-rinkeby.infura.io/v3/'
 }
 
 /**
@@ -23,12 +24,21 @@ const networksToEndpoints = {
  * @property {import('./requests').GetTokensOptions} tokenSearchOptions
  */
 
+function checkInfuraId() {
+    if (INFURA_ID_PROJECT == '') {
+        throw new Error('ID of infura project is not specified');
+    }
+}
+
 function generateForkString() {
     if (NETWORK in networksToEndpoints) {
         if (NETWORK == 'ETH') {
-            if (INFURA_ID_PROJECT == '') {
-                throw new Error('ID of infura project is not specified');
-            }
+            checkInfuraId()
+            return networksToEndpoints[NETWORK] + INFURA_ID_PROJECT;
+        }
+
+        if (NETWORK == 'ARBITRUM') {
+            checkInfuraId()
             return networksToEndpoints[NETWORK] + INFURA_ID_PROJECT;
         }
 
@@ -77,7 +87,7 @@ async function createGanacheCliString(launchParams) {
     if (Object.keys(obj).length > 0)
         launchParams.accounts = launchParams.accounts.concat(getAccountsFromObj(obj));
 
-    let unlockedAccounts = `${' --unlock "'  + launchParams.accounts.join('" --unlock "') + '"'}`;
+    let unlockedAccounts = launchParams.accounts.length > 0 ? `${' --unlock "'  + launchParams.accounts.join('" --unlock "') + '"'}` : '';
 
     ganacheString += forkString + unlockedAccounts;
 
