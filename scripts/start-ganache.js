@@ -12,7 +12,8 @@ const {
 const networksToEndpoints = {
     'ETH': 'https://mainnet.infura.io/v3/',
     'POLYGON': 'https://polygon-rpc.com/',
-    'ARBITRUM': 'https://arbitrum-mainnet.infura.io/v3/'
+    'ARBITRUM': 'https://arbitrum-mainnet.infura.io/v3/',
+    'HARMONY': 'https://a.api.s0.t.hmny.io/'
 }
 
 /**

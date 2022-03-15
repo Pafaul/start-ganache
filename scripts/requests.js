@@ -11,7 +11,8 @@ const {
 const networksWithHolderSearch = {
     'ETH': true,
     'POLYGON': false,
-    'ARBITRUM': false
+    'ARBITRUM': false,
+    'HARMONY': false
 }
 
 function sleep(s) {
