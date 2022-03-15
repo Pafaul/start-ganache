@@ -1,6 +1,6 @@
 {
   "name": "evm-fork-launch",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Modules to find holders and start ganache",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Pafaul/start-ganache/issues"
   },
-  "homepage": "https://https://github.com/Pafaul/start-ganache#readme",
+  "homepage": "https://github.com/Pafaul/start-ganache#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
     "fs": "^0.0.1-security",

@@ -1,19 +1,13 @@
 const request = require('request');
 
 const fs = require('fs');
+const { networksWithHolderSearch } = require('./config');
 
 const bloxyApiKey = 'ACCEd0efRboLa';
 
 const {
     NETWORK = 'ETH'
 } = process.env;
-
-const networksWithHolderSearch = {
-    'ETH': true,
-    'POLYGON': false,
-    'ARBITRUM': false,
-    'HARMONY': false
-}
 
 function sleep(s) {
     return new Promise((resolve) => {

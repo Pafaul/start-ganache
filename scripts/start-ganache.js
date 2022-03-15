@@ -1,6 +1,7 @@
 const { getTokenInfo, bloxyApiKey } = require("./requests");
 
 const child_process = require('child_process');
+const { networksToEndpoints } = require("./config");
 
 require('dotenv').config();
 const {
@@ -8,13 +9,6 @@ const {
     NETWORK = 'ETH',
     PORT = 8545
 } = process.env;
-
-const networksToEndpoints = {
-    'ETH': 'https://mainnet.infura.io/v3/',
-    'POLYGON': 'https://polygon-rpc.com/',
-    'ARBITRUM': 'https://arbitrum-mainnet.infura.io/v3/',
-    'HARMONY': 'https://a.api.s0.t.hmny.io/'
-}
 
 /**
  * @typedef {Object} GanacheConfig
@@ -33,13 +27,9 @@ function checkInfuraId() {
 
 function generateForkString() {
     if (NETWORK in networksToEndpoints) {
-        if (NETWORK == 'ETH') {
-            checkInfuraId()
-            return networksToEndpoints[NETWORK] + INFURA_ID_PROJECT;
-        }
-
-        if (NETWORK == 'ARBITRUM') {
-            checkInfuraId()
+        const endpointName = networksToEndpoints[NETWORK];
+        if (endpointName.indexOf('infura') >= 0) {
+            checkInfuraId();
             return networksToEndpoints[NETWORK] + INFURA_ID_PROJECT;
         }
 
