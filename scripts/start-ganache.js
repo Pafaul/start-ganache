@@ -25,7 +25,7 @@ function checkInfuraId() {
     }
 }
 
-function generateForkString() {
+function getEndpoint() {
     if (NETWORK in networksToEndpoints) {
         const endpointName = networksToEndpoints[NETWORK];
         if (endpointName.indexOf('infura') >= 0) {
@@ -64,7 +64,7 @@ async function createGanacheCliString(launchParams) {
     
     let ganacheString = `ganache-cli --gasLimit ${launchParams.gasLimit? String(launchParams.gasLimit) : '9000000'} -e 100000 ${launchParams.fork ? `-k ` + launchParams.fork : ''} ${PORT == '' ? '' : '-p ' + PORT} --fork `;
 
-    let forkString = generateForkString();
+    let endpointString = getEndpoint();
 
     let obj = {}
     if (launchParams.tokens.length > 0) {
@@ -80,7 +80,7 @@ async function createGanacheCliString(launchParams) {
 
     let unlockedAccounts = launchParams.accounts.length > 0 ? `${' --unlock "'  + launchParams.accounts.join('" --unlock "') + '"'}` : '';
 
-    ganacheString += forkString + unlockedAccounts;
+    ganacheString += endpointString + unlockedAccounts;
 
     return ganacheString;
 }
@@ -133,6 +133,7 @@ if (require.main === module) {
 } else {
     module.exports = {
         createGanacheCliString,
-        startGanache
+        startGanache,
+        getEndpoint
     }
 }
