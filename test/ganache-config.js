@@ -6,7 +6,7 @@ module.exports = {
     gasLimit: 9000000,
     tokenSearchOptions: {
         byAddress: true,
-        cached: true,
+        cached: false,
         verbose: true,
         debug: true,
         writeToFile: './output-ganache.json'
