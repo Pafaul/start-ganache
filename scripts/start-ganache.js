@@ -62,7 +62,7 @@ async function createGanacheCliString(launchParams) {
         launchParams.accounts = [];
     }
     
-    let ganacheString = `ganache-cli --gasLimit ${launchParams.gasLimit? String(launchParams.gasLimit) : '9000000'} -e 100000 ${launchParams.fork ? `-k ` + launchParams.fork : ''} ${PORT == '' ? '' : '-p ' + PORT} --fork `;
+    let ganacheString = `ganache --gasLimit ${launchParams.gasLimit? String(launchParams.gasLimit) : '9000000'} -e 100000 ${launchParams.fork ? `-k ` + launchParams.fork : ''} ${PORT == '' ? '' : '-p ' + PORT} --fork `;
 
     let endpointString = getEndpoint();
 

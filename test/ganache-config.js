@@ -2,7 +2,7 @@ const tokens = require('./tokens.json');
 
 module.exports = {
     accounts: [],
-    fork: "istanbul",
+    fork: "berlin",
     gasLimit: 9000000,
     tokenSearchOptions: {
         byAddress: true,
